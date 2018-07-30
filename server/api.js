@@ -9,8 +9,12 @@ const minionsRouter = require('./minions');
 apiRouter.use('/minions', minionsRouter);
 
 // Import and mount ideasRouter
+const ideasRouter = require('./ideas');
+apiRouter.use('/ideas', ideasRouter);
 
 // Import and mount meetingsRouter
+const meetingsRouter = require('./meetings');
+apiRouter.use('/meetings', meetingsRouter);
 
 // Import and mount workRouter
 
