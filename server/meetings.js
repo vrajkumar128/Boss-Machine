@@ -10,6 +10,18 @@ const {
 // Create meetingsRouter
 const meetingsRouter = express.Router();
 
+// Handle :meetingId router parameter
+meetingsRouter.param('meetingId', (req, res, next, id) => {
+  const meeting = getFromDatabaseById('meetings', id);
+
+  if (meeting && meeting !== -1) {
+    req.meeting = meeting;
+    next();
+  } else {
+    res.status(404).send();
+  }
+});
+
 // Get all meetings
 meetingsRouter.get('/', (req, res, next) => {
   const meetings = getAllFromDatabase('meetings');
@@ -17,19 +29,14 @@ meetingsRouter.get('/', (req, res, next) => {
 });
 
 // Get a single meeting
-meetingsRouter.get('/:id', (req, res, next) => {
-  const meeting = getFromDatabaseById('meetings', req.params.id);
-
-  if (meeting && meeting !== -1) {
-    res.send(meeting);
-  } else {
-    res.status(404).send();
-  }
+meetingsRouter.get('/:meetingId', (req, res, next) => {
+  res.send(req.meeting);
 });
 
 // Create a meeting
 meetingsRouter.post('/', (req, res, next) => {
-  const newMeeting = createMeeting()
+  const newMeeting = createMeeting();
+  addToDatabase('meetings', newMeeting);
   res.status(201).send(newMeeting);
 });
 
