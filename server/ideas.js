@@ -6,6 +6,7 @@ const {
   updateInstanceInDatabase,
   deleteFromDatabasebyId
 } = require('./db');
+const checkMillionDollarIdea = require('./checkMillionDollarIdea');
 
 // Create ideasRouter
 const ideasRouter = express.Router();
@@ -41,7 +42,7 @@ ideasRouter.put('/:id', (req, res, next) => {
 });
 
 // Create a idea
-ideasRouter.post('/', (req, res, next) => {
+ideasRouter.post('/', checkMillionDollarIdea, (req, res, next) => {
   const newIdea = addToDatabase('ideas', req.body);
 
   if (newIdea) {
