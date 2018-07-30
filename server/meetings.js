@@ -2,6 +2,7 @@ const express = require('express');
 const {
   getAllFromDatabase,
   getFromDatabaseById,
+  createMeeting,
   addToDatabase,
   deleteAllFromDatabase
 } = require('./db');
@@ -28,14 +29,8 @@ meetingsRouter.get('/:id', (req, res, next) => {
 
 // Create a meeting
 meetingsRouter.post('/', (req, res, next) => {
-  const newMeeting = addToDatabase('meetings', req.body);
-
-  if (newMeeting) {
-    addToDatabase('meetings', req.body);
-    res.status(201).send(newMeeting);
-  } else {
-    res.status(400).send();
-  }
+  const newMeeting = createMeeting()
+  res.status(201).send(newMeeting);
 });
 
 // Delete all meetings
